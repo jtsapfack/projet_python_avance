@@ -1,0 +1,64 @@
+{% extends 'risk_app/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-clipboard-data"></i> Vehicle Risk Prediction Form
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5 class="mb-3">General Information</h5>
+                                {{ form.make|as_crispy_field }}
+                                {{ form.body_style|as_crispy_field }}
+                                {{ form.fuel_type|as_crispy_field }}
+                                {{ form.aspiration|as_crispy_field }}
+                                {{ form.num_of_doors|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Technical Details</h5>
+                                {{ form.drive_wheels|as_crispy_field }}
+                                {{ form.engine_location|as_crispy_field }}
+                                {{ form.engine_type|as_crispy_field }}
+                                {{ form.num_of_cylinders|as_crispy_field }}
+                                {{ form.fuel_system|as_crispy_field }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Dimensions</h5>
+                                {{ form.wheel_base|as_crispy_field }}
+                                {{ form.height|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Engine Specifications</h5>
+                                {{ form.bore|as_crispy_field }}
+                                {{ form.stroke|as_crispy_field }}
+                                {{ form.compression_ratio|as_crispy_field }}
+                                {{ form.peak_rpm|as_crispy_field }}
+                                {{ form.normalized_losses|as_crispy_field }}
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-calculator"></i> Calculate Risk
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

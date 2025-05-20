@@ -1,0 +1,118 @@
+{% extends 'risk_app/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header {% if vehicle.predicted_risk == 'Faible' %}bg-success{% elif vehicle.predicted_risk == 'Moyen' %}bg-warning{% else %}bg-danger{% endif %} text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-{% if vehicle.predicted_risk == 'Faible' %}check-circle{% elif vehicle.predicted_risk == 'Moyen' %}exclamation-triangle{% else %}x-circle{% endif %}"></i>
+                        Risk Assessment Results
+                    </h3>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Risk Level Banner -->
+                    <div class="alert alert-{% if vehicle.predicted_risk == 'Faible' %}success{% elif vehicle.predicted_risk == 'Moyen' %}warning{% else %}danger{% endif %}">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <h4 class="alert-heading mb-0">
+                                    Predicted Risk Level: 
+                                    <span class="fw-bold">
+                                        {{ vehicle.predicted_risk }}
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Details -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card mb-4 h-100">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0"><i class="bi bi-car-front"></i> Vehicle Details</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <strong>Make:</strong> {{ vehicle.get_make_display }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Body Style:</strong> {{ vehicle.get_body_style_display }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Fuel Type:</strong> {{ vehicle.get_fuel_type_display }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Drive Wheels:</strong> {{ vehicle.get_drive_wheels_display }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card mb-4 h-100">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0"><i class="bi bi-gear"></i> Technical Specifications</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <strong>Engine Type:</strong> {{ vehicle.get_engine_type_display }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Cylinders:</strong> {{ vehicle.get_num_of_cylinders_display }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Fuel System:</strong> {{ vehicle.get_fuel_system_display }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Peak RPM:</strong> {{ vehicle.peak_rpm }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation -->
+                    <div class="card mt-4 border-{% if vehicle.predicted_risk == 'Faible' %}success{% elif vehicle.predicted_risk == 'Moyen' %}warning{% else %}danger{% endif %}">
+                        <div class="card-header bg-{% if vehicle.predicted_risk == 'Faible' %}success{% elif vehicle.predicted_risk == 'Moyen' %}warning{% else %}danger{% endif %} text-white">
+                            <h5 class="mb-0"><i class="bi bi-clipboard2-check"></i> Recommendation</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if vehicle.predicted_risk == 'Faible' %}
+                                <div class="alert alert-success">
+                                    <i class="bi bi-check-circle"></i> This vehicle shows excellent safety characteristics. Recommended purchase.
+                                </div>
+                            {% elif vehicle.predicted_risk == 'Moyen' %}
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle"></i> This vehicle requires additional inspection before purchase decision.
+                                </div>
+                            {% else %}
+                                <div class="alert alert-danger">
+                                    <i class="bi bi-x-circle"></i> We do not recommend this vehicle due to high risk factors.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'predict_risk' %}" class="btn btn-outline-primary me-md-2">
+                            <i class="bi bi-arrow-repeat"></i> New Analysis
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-footer text-muted text-end">
+                    <small>Analysis performed on {{ vehicle.prediction_date|date:"d/m/Y H:i" }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
