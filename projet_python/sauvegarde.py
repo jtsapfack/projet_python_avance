@@ -1,7 +1,7 @@
 
 import visualisation as vis
 import numpy as np
-import pretraitement as pret
+
 
 
 def sauvegarde(save_directory, data_for_plotting) :

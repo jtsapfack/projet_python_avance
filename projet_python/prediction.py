@@ -25,8 +25,42 @@ def division_donnee(df):
     Y = df.iloc[:,:1]
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.3, random_state=42)
     return X_train, X_test, y_train, y_test
+    
+    
+def supprimer_variables_correlees(df, seuil=0.8):
+    """
+    Supprime les colonnes avec une forte corrélation linéaire.
+
+    Paramètres :
+    - df : DataFrame pandas avec uniquement les variables numériques.
+    - seuil : valeur absolue du coefficient de corrélation au-dessus duquel on supprime une variable.
+
+    Retour :
+    - df sans les colonnes trop corrélées.
+    - liste des colonnes supprimées.
+    """
+    # Calcul de la matrice de corrélation
+    corr_matrix = df.select_dtypes(include=np.number).corr().abs()
+
+    # Prendre la partie supérieure de la matrice (triangle supérieur)
+    upper = corr_matrix.where(
+        pd.DataFrame(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool), 
+                     columns=corr_matrix.columns, 
+                     index=corr_matrix.index)
+    )
+
+    # Trouver les colonnes à supprimer
+    colonnes_a_supprimer = [col for col in upper.columns if any(upper[col] > seuil)]
+    
+    # Supprimer ces colonnes du DataFrame
+    df_reduit = df.drop(columns=colonnes_a_supprimer)
+
+    return df_reduit
+    
 
 def train_model(data) :
+    
+    data = supprimer_variables_correlees(data, seuil=0.8)
     ## Division des données
     X_train, X_test, y_train, y_test = division_donnee(data)
 
@@ -52,3 +86,5 @@ def train_model(data) :
     RF.fit(X_train_normalise,y_train)
     
     return RF
+    
+
