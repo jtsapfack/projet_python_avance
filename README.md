@@ -12,6 +12,7 @@ Ce projet est constitué de 3 dossiers :
 * loictchoupedirane@gmail.com
 * Lorieneprisca955@gmail.com
 * tsapfackjoseph@gmail.com
+* darryljonesgandjon@gmail.com
 
 
 *Merci et bonne lecture ......*
