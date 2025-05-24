@@ -1,6 +1,8 @@
 # Ceci est notre programme principale où sont appelés toutes nos fonctions
 
 import pretraitement as pret
+import visualisation as vis
+
 
 
 # PRETRAITEMENT DES DONNEES
@@ -31,43 +33,21 @@ numeric_features_for_dist = numeric_features + [target_col]
 
 plot_univariate_distributions(data, numeric_features_for_dist, categorical_features)
 
+# SAUVEGARDE
+
+sauvegarde("Figures", data_nettoye)
 
 # PREDICTION
 
-## Division des données
-X_train, X_test, y_train, y_test = division_donnee(auto_nettoye)
+## Model entrainé
+RF = train_model(data_nettoye)
 
-## Application de la normalisation
-X_train_normalise = normaliser_colonne(X_train, X_train.select_dtypes(include=np.number).columns, methode='minmax')
-X_test_normalise = normaliser_colonne(X_test, X_train.select_dtypes(include=np.number).columns, methode='minmax')
-
-## Application de l'encodage par fréquence sur les variables qualitatives
-Xtr = X_train_normalise.select_dtypes(include='object').columns.tolist()
-Xte = X_test_normalise.select_dtypes(include='object').columns.tolist()
-for column in Xtr :
-X_train_normalise = encode_frequency(X_train_normalise, column)
-
-for column in Xte :
-X_test_normalise = encode_frequency(X_test_normalise, column)
-
-## Random Forest
-
-### Création du modèle
-RF = RandomForestClassifier(random_state=42)
-
-### Apprentissage du modèle
-RF.fit(X_train_normalise,y_train)
-
-# Prédiction
 pred_RF = RF.predict(X_test_normalise)
 pred_RF
 
 metrics.accuracy_score(y_test, pred_RF)
 
 metrics.f1_score(y_test, pred_RF, average='weighted')
-
-
-
 
 
 
