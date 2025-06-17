@@ -45,6 +45,7 @@ RF = train_model(data_nettoye)
 pred_RF = RF.predict(X_test_normalise)
 pred_RF
 
+## Précision du modèle
 metrics.accuracy_score(y_test, pred_RF)
 
 metrics.f1_score(y_test, pred_RF, average='weighted')

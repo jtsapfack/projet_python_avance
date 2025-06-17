@@ -1,7 +1,6 @@
 
 import visualisation as vis
 import numpy as np
-import pretraitement as pret
 
 
 def sauvegarde(save_directory, data_for_plotting) :
@@ -24,5 +23,3 @@ def sauvegarde(save_directory, data_for_plotting) :
 
     vis.plot_numerical_relationships(data_for_plotting, numeric_features_all, target_col=target_col, save_dir=save_directory)
     vis.plot_categorical_numerical_relationships(data_for_plotting, categorical_features_plotting, numerical_col=target_col, save_dir=save_directory, max_categories=10)
-
-    print(f"\nProcessus de visualisation automatisée terminé. Les graphiques ont été enregistrés dans le dossier '{save_directory}'. 2pson_B")
