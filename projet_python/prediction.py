@@ -25,8 +25,7 @@ def division_donnee(df):
     Y = df.iloc[:,:1]
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.3, random_state=42)
     return X_train, X_test, y_train, y_test
-    
-    
+
 def supprimer_variables_correlees(df, seuil=0.8):
     """
     Supprime les colonnes avec une forte corrélation linéaire.
@@ -61,6 +60,7 @@ def supprimer_variables_correlees(df, seuil=0.8):
 def train_model(data) :
     
     data = supprimer_variables_correlees(data, seuil=0.8)
+    
     ## Division des données
     X_train, X_test, y_train, y_test = division_donnee(data)
 
@@ -85,6 +85,5 @@ def train_model(data) :
     ### Apprentissage du modèle
     RF.fit(X_train_normalise,y_train)
     
-    return RF
-    
 
+    return RF
